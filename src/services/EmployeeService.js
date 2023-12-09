@@ -12,6 +12,11 @@ class EmployeeService {
             throw error; // Hata durumunda hatayı yeniden fırlat
         }
     }
+
+    createEmployee(employee) {
+        return axios.post(EMPLOYEE_API_BASE_URL, employee);
+    }
+    
 }
 
 export default new EmployeeService();

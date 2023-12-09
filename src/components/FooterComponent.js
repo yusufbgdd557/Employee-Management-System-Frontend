@@ -4,16 +4,14 @@ class FooterComponent extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            
-        };
+        this.state = {};
     }
 
     render() {
         return (
             <div>
-                <footer className = "footer">
-                    <span className = "text-grey text-center">All Rights Reserved 2023 @DevYusuf</span>
+                <footer className="footer">
+                    <span>All Rights Reserved 2023 @DevYusuf</span>
                 </footer>
             </div>
         );
