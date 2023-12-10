@@ -8,7 +8,8 @@ class ListEmployeeComponent extends Component {
         this.state = {
             employees: []
         };
-        this.addEmployee = this.addEmployee.bind(this)
+        this.addEmployee = this.addEmployee.bind(this);
+        this.editEmployee = this.editEmployee.bind(this);
     }
 
     componentDidMount() {
@@ -21,6 +22,9 @@ class ListEmployeeComponent extends Component {
         window.location.href = '/add-employee';
     }
     
+    editEmployee = (id) => {
+        window.location.href = '/update-employee/${id}';
+    }
 
     render() {
         return (
@@ -46,6 +50,9 @@ class ListEmployeeComponent extends Component {
                                         <td>{employee.firstName}</td>
                                         <td>{employee.lastName}</td>
                                         <td>{employee.email}</td>
+                                        <td>
+                                            <button onClick = { () => this.editEmployee(employee.id)} className='btn btn-info'> Update </button>
+                                        </td>
                                     </tr>
                                 ))
                             }
