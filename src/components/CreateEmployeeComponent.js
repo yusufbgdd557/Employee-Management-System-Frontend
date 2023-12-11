@@ -1,95 +1,103 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import EmployeeService from '../services/EmployeeService';
 import { toast } from 'react-toastify';
 
-class CreateEmployeeComponent extends Component {
+const CreateEmployeeComponent = () => {
+  const [state, setState] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+  });
 
+  const changeFirstNameHandler = (event) => {
+    setState({ ...state, firstName: event.target.value });
+  };
 
-    constructor(props) {
-        super(props);
+  const changeLastNameHandler = (event) => {
+    setState({ ...state, lastName: event.target.value });
+  };
 
-        this.state = {
-            firstName: '',
-            lastName: '',
-            email: '',
-        }
+  const changeEmailHandler = (event) => {
+    setState({ ...state, email: event.target.value });
+  };
 
+  const saveEmployee = async (e) => {
+    e.preventDefault();
 
-        this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
-        this.changeLastNameHandler = this.changeLastNameHandler.bind(this);
-        this.changeEmailHandler = this.changeEmailHandler.bind(this);
-        this.saveEmployee = this.saveEmployee.bind(this);
-
+    if (!state.firstName || !state.lastName || !state.email) {
+      toast.warn('All fields required!');
+      return;
     }
 
-    changeFirstNameHandler(event) {
-        this.setState({ firstName: event.target.value });
-    }
-    changeLastNameHandler(event) {
-        this.setState({ lastName: event.target.value });
-    }
-    changeEmailHandler(event) {
-        this.setState({ email: event.target.value });
-    }
-    saveEmployee = (e) => {
-        e.preventDefault();
+    const employee = {
+      firstName: state.firstName,
+      lastName: state.lastName,
+      email: state.email,
+    };
 
-        if (!this.state.firstName || !this.state.lastName || !this.state.email) {
-            toast.warn("All fields required!");
-            return;
-        }
-
-        let employee = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email
-        };
-
-        console.log('employee => ' + JSON.stringify(employee));
-
-        EmployeeService.createEmployee(employee).then(res => {
-            toast.success("Successfully saved!");
-            // Introduce a delay using setTimeout before redirecting
-            setTimeout(() => {
-                window.location.href = '/employees';
-            }, 3000); // 2000 milliseconds = 2 seconds
-        });
+    try {
+      await EmployeeService.createEmployee(employee);
+      toast.success('Successfully saved!');
+      setTimeout(() => {
+        window.location.href = '/add-employee';
+      }, 3000);
+    } catch (error) {
+      console.error('Error creating employee:', error);
     }
-    cancel(e) {
-        e.preventDefault();
-        window.location.href = '/employees';
-    }
+  };
 
-    render() {
-        return (
-            <div>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='card col-md-6 offset-md-3 offset-md-3'>
-                            <h3 className='text-center'> Add Employee </h3>
-                            <div className='card-body'>
-                                <form>
-                                    <div className='form-group'>
-                                        <label> First Name: </label>
-                                        <input placeholder="First Name" name="firstName" className="form-control"
-                                            value={this.state.firstName} onChange={this.changeFirstNameHandler} />
-                                        <label> Last Name: </label>
-                                        <input placeholder="Last Name" name="lastName" className="form-control"
-                                            value={this.state.lastName} onChange={this.changeLastNameHandler} />
-                                        <label> Email: </label>
-                                        <input placeholder="Email Address" name="email" className="form-control"
-                                            value={this.state.email} onChange={this.changeEmailHandler} />
-                                    </div>
-                                    <button className='btn btn-success' onClick={this.saveEmployee}>Save</button>
-                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px" }}>Cancel</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+  const cancel = (e) => {
+    e.preventDefault();
+    window.location.href = '/employees';
+  };
+
+  return (
+    <div>
+      <div className='container'>
+        <div className='row'>
+          <div className='card col-md-6 offset-md-3 offset-md-3'>
+            <h3 className='text-center'> Add Employee </h3>
+            <div className='card-body'>
+              <form>
+                <div className='form-group'>
+                  <label> First Name: </label>
+                  <input
+                    placeholder='First Name'
+                    name='firstName'
+                    className='form-control'
+                    value={state.firstName}
+                    onChange={changeFirstNameHandler}
+                  />
+                  <label> Last Name: </label>
+                  <input
+                    placeholder='Last Name'
+                    name='lastName'
+                    className='form-control'
+                    value={state.lastName}
+                    onChange={changeLastNameHandler}
+                  />
+                  <label> Email: </label>
+                  <input
+                    placeholder='Email Address'
+                    name='email'
+                    className='form-control'
+                    value={state.email}
+                    onChange={changeEmailHandler}
+                  />
                 </div>
+                <button className='btn btn-success' onClick={saveEmployee}>
+                  Save
+                </button>
+                <button className='btn btn-danger' onClick={cancel} style={{ marginLeft: '10px' }}>
+                  Cancel
+                </button>
+              </form>
             </div>
-        );
-    }
-}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default CreateEmployeeComponent;

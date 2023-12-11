@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import CreateEmployeeComponent from './components/CreateEmployeeComponent';
 import FooterComponent from './components/FooterComponent';
@@ -9,19 +10,19 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
+const App = () => {
   return (
     <div>
       <Router>
-        <div className="app-container">
+        <div className='app-container'>
           <HeaderComponent />
-          <div className="div-container">
+          <div className='div-container'>
             <Routes>
               <Route path='/' element={<ListEmployeeComponent />} />
               <Route path='/employees' element={<ListEmployeeComponent />} />
               <Route path='/add-employee' element={<CreateEmployeeComponent />} />
-              <Route path='/update-employee/:id' element={<UpdateEmployeeComponent />} />
-              <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
+              <Route path='/update-employee' element={<UpdateEmployeeComponent />} />
+              <Route path='/view-employee' element={<ViewEmployeeComponent />} />
             </Routes>
           </div>
           <FooterComponent />
@@ -30,6 +31,6 @@ function App() {
       <ToastContainer />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,47 +1,62 @@
-import React, { Component } from 'react'
-import EmployeeService from '../services/EmployeeService'
+import React, { useState, useEffect } from 'react';
+import EmployeeService from '../services/EmployeeService';
+import { useSearchParams } from 'react-router-dom';
 
-class ViewEmployeeComponent extends Component {
-    constructor(props) {
-        super(props)
 
-        this.state = {
-            id: this.props.match.params.id,
-            employee: {}
+const ViewEmployeeComponent = (props) => {
+
+    const [employee, setEmployee] = useState({});
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        const paramId = searchParams.get('id') ? searchParams.get('id') : null;
+        if (!paramId) {
+            return;
         }
-    }
+        const fetchEmployee = async (id) => {
+            try {
+                const res = await EmployeeService.getEmployeeById(id);
+                setEmployee(res.data);
+            } catch (error) {
+                console.error('Error fetching employee:', error);
+            }
+        };
 
-    componentDidMount(){
-        EmployeeService.getEmployeeById(this.state.id).then( res => {
-            this.setState({employee: res.data});
-        })
-    }
+        fetchEmployee(paramId);
+    }, []);
+    
+    const tableStyle = {
+        width: '50%',
+        margin: '0 auto',
+        marginTop: '20px',
+      };
 
-    render() {
-        return (
-            <div>
-                <br></br>
-                <div className = "card col-md-6 offset-md-3">
-                    <h3 className = "text-center"> View Employee Details</h3>
-                    <div className = "card-body">
-                        <div className = "row">
-                            <label> Employee First Name: </label>
-                            <div> { this.state.employee.firstName }</div>
-                        </div>
-                        <div className = "row">
-                            <label> Employee Last Name: </label>
-                            <div> { this.state.employee.lastName }</div>
-                        </div>
-                        <div className = "row">
-                            <label> Employee Email: </label>
-                            <div> { this.state.employee.emailId }</div>
-                        </div>
-                    </div>
+    return (
+        <table className="table table-bordered" style={tableStyle}>
+        <thead className="thead-dark">
+          <tr>
+            <th colSpan="2" className="text-center">
+            <button className="btn btn-secondary" onClick={() => window.location.href="/employees"} style={{float: 'left'}}>Back</button>
+              Employee Details
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Employee First Name:</td>
+            <td>{employee.firstName}</td>
+          </tr>
+          <tr>
+            <td>Employee Last Name:</td>
+            <td>{employee.lastName}</td>
+          </tr>
+          <tr>
+            <td>Employee Email:</td>
+            <td>{employee.email}</td>
+          </tr>
+        </tbody>
+      </table>
+    );
+};
 
-                </div>
-            </div>
-        )
-    }
-}
-
-export default ViewEmployeeComponent
+export default ViewEmployeeComponent;
