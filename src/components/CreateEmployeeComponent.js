@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 class CreateEmployeeComponent extends Component {
 
-    
+
     constructor(props) {
         super(props);
 
@@ -38,21 +38,25 @@ class CreateEmployeeComponent extends Component {
             toast.warn("All fields required!");
             return;
         }
-        
+
         let employee = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email
         };
-    
+
         console.log('employee => ' + JSON.stringify(employee));
-    
+
         EmployeeService.createEmployee(employee).then(res => {
             toast.success("Successfully saved!");
-            window.location.href = '/employees';
+            // Introduce a delay using setTimeout before redirecting
+            setTimeout(() => {
+                window.location.href = '/employees';
+            }, 3000); // 2000 milliseconds = 2 seconds
         });
     }
-    cancel() {
+    cancel(e) {
+        e.preventDefault();
         window.location.href = '/employees';
     }
 
@@ -72,12 +76,12 @@ class CreateEmployeeComponent extends Component {
                                         <label> Last Name: </label>
                                         <input placeholder="Last Name" name="lastName" className="form-control"
                                             value={this.state.lastName} onChange={this.changeLastNameHandler} />
-                                            <label> Email: </label>
+                                        <label> Email: </label>
                                         <input placeholder="Email Address" name="email" className="form-control"
                                             value={this.state.email} onChange={this.changeEmailHandler} />
                                     </div>
                                     <button className='btn btn-success' onClick={this.saveEmployee}>Save</button>
-                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
+                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{ marginLeft: "10px" }}>Cancel</button>
                                 </form>
                             </div>
                         </div>

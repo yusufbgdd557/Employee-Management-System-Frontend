@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import EmployeeService from '../services/EmployeeService';
 
 class ListEmployeeComponent extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -18,10 +18,14 @@ class ListEmployeeComponent extends Component {
         });
     }
 
+    viewEmployee = (id) => {
+        window.location.href = '/view-employee/${id}';
+    }
+
     addEmployee = () => {
         window.location.href = '/add-employee';
     }
-    
+
     editEmployee = (id) => {
         window.location.href = '/update-employee/${id}';
     }
@@ -51,7 +55,7 @@ class ListEmployeeComponent extends Component {
                                         <td>{employee.lastName}</td>
                                         <td>{employee.email}</td>
                                         <td>
-                                            <button onClick = { () => this.editEmployee(employee.id)} className='btn btn-info'> Update </button>
+                                            <button onClick={() => this.editEmployee(employee.id)} className='btn btn-info'> Update </button>
                                         </td>
                                     </tr>
                                 ))

@@ -64,7 +64,8 @@ class UpdateEmployeeComponent extends Component {
         });
     }
 
-    cancel() {
+    cancel(e) {
+        e.preventDefault();
         window.location.href = '/employees';
     }
 
@@ -74,7 +75,7 @@ class UpdateEmployeeComponent extends Component {
                 <div className='container'>
                     <div className='row'>
                         <div className='card col-md-6 offset-md-3 offset-md-3'>
-                            <h3 className='text-center'> Add Employee </h3>
+                            <h3 className='text-center'> Update Employee </h3>
                             <div className='card-body'>
                                 <form>
                                     <div className='form-group'>
@@ -101,3 +102,122 @@ class UpdateEmployeeComponent extends Component {
 }
 
 export default UpdateEmployeeComponent;
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
+// import EmployeeService from '../services/EmployeeService';
+// import { toast } from 'react-toastify';
+
+// const UpdateEmployeeComponent = () => {
+//   const { id } = useParams();
+//   const [employee, setEmployee] = useState({
+//     id: '',
+//     firstName: '',
+//     lastName: '',
+//     email: '',
+//   });
+
+//   useEffect(() => {
+//     EmployeeService.getEmployeeById(id).then((res) => {
+//       let fetchedEmployee = res.data;
+//       setEmployee({
+//         id: fetchedEmployee.id,
+//         firstName: fetchedEmployee.firstName,
+//         lastName: fetchedEmployee.lastName,
+//         email: fetchedEmployee.email,
+//       });
+//     });
+//   }, [id]);
+
+//   const updateEmployee = async (e) => {
+//     e.preventDefault();
+
+//     if (!employee.firstName || !employee.lastName || !employee.email) {
+//       toast.warn('Error: Fields cannot be empty!');
+//       return;
+//     }
+
+//     try {
+//       await EmployeeService.updateEmployee(employee);
+//       toast.success('Successfully updated!');
+//       setTimeout(() => {
+//         window.location.href = '/employees';
+//       }, 2000);
+//     } catch (error) {
+//       console.error('Error updating employee:', error);
+//       toast.error('Error updating employee. Please try again.');
+//     }
+//   };
+
+//   const handleChange = (e) => {
+//     setEmployee({ ...employee, [e.target.name]: e.target.value });
+//   };
+
+//   const cancel = (e) => {
+//     e.preventDefault();
+//     window.location.href = '/employees';
+//   };
+
+//   return (
+//     <div>
+//       <div className='container'>
+//         <div className='row'>
+//           <div className='card col-md-6 offset-md-3 offset-md-3'>
+//             <h3 className='text-center'> Update Employee </h3>
+//             <div className='card-body'>
+//               <form>
+//                 <div className='form-group'>
+//                   <label> First Name: </label>
+//                   <input
+//                     placeholder='First Name'
+//                     name='firstName'
+//                     className='form-control'
+//                     value={employee.firstName}
+//                     onChange={handleChange}
+//                   />
+//                   <label> Last Name: </label>
+//                   <input
+//                     placeholder='Last Name'
+//                     name='lastName'
+//                     className='form-control'
+//                     value={employee.lastName}
+//                     onChange={handleChange}
+//                   />
+//                   <label> Email: </label>
+//                   <input
+//                     placeholder='Email Address'
+//                     name='email'
+//                     className='form-control'
+//                     value={employee.email}
+//                     onChange={handleChange}
+//                   />
+//                 </div>
+//                 <button className='btn btn-success' onClick={updateEmployee}>
+//                   Save
+//                 </button>
+//                 <button
+//                   className='btn btn-danger'
+//                   onClick={cancel}
+//                   style={{ marginLeft: '10px' }}
+//                 >
+//                   Cancel
+//                 </button>
+//               </form>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default UpdateEmployeeComponent;

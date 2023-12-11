@@ -4,6 +4,7 @@ import FooterComponent from './components/FooterComponent';
 import HeaderComponent from './components/HeaderComponent';
 import ListEmployeeComponent from './components/ListEmployeeComponent';
 import UpdateEmployeeComponent from './components/UpdateEmployeeComponent';
+import ViewEmployeeComponent from './components/ViewEmployee.Component';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +21,7 @@ function App() {
               <Route path='/employees' element={<ListEmployeeComponent />} />
               <Route path='/add-employee' element={<CreateEmployeeComponent />} />
               <Route path='/update-employee/:id' element={<UpdateEmployeeComponent />} />
+              <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
             </Routes>
           </div>
           <FooterComponent />
